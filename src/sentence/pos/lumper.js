@@ -23,7 +23,8 @@ const should_chunk = function(a, b) {
   //dont chunk these pos
   const dont_chunk = [
     'Expression',
-    'Phrasal'
+    'Phrasal',
+    'Pronoun'
   ];
   for (let i = 0; i < dont_chunk.length; i++) {
     if (a.pos[dont_chunk[i]] || b.pos[dont_chunk[i]]) {
@@ -55,11 +56,11 @@ const chunk_neighbours = function(terms) {
   let new_terms = [];
   let last_one = null;
   for (let i = 0; i < terms.length; i++) {
-    var t = terms[i];
+    let t = terms[i];
     //if the tags match (but it's not a hidden contraction)
     if (should_chunk(last_one, t)) {
-      var space = last_one.whitespace.trailing + t.whitespace.preceding;
-      var last = new_terms.length - 1;
+      let space = last_one.whitespace.trailing + t.whitespace.preceding;
+      let last = new_terms.length - 1;
       new_terms[last].text += space + t.text;
       new_terms[last].normalize();
       new_terms[last].whitespace.trailing = t.whitespace.trailing;

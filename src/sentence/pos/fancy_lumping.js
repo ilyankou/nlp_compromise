@@ -82,7 +82,8 @@ const shouldLumpTwo = function(a, b) {
       result: 'Possessive',
     },
     {
-      condition: (a.pos.Person && b.is_capital() && !a.pos.Possessive), //'Person, Capital -> Person'
+      //"John Abcd" - needs to be careful
+      condition: (a.pos.Person && !a.pos.Pronoun && b.is_capital() && !a.is_acronym() && !b.pos.Verb && !a.pos.Possessive && !a.has_comma()), //'Person, Capital -> Person'
       result: 'Person',
     },
     {

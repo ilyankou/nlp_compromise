@@ -36,7 +36,7 @@ function NLP() {
   };
   this.lexicon = function(obj) {
     obj = obj || {};
-    var lex = require('./lexicon.js');
+    let lex = require('./lexicon.js');
 
     Object.keys(obj).forEach(function(k) {
       lex[k] = obj[k];
@@ -106,7 +106,7 @@ if (typeof define === 'function' && define.amd) {
 }
 
 // console.log(nlp.sentence('he is currently doing everything he can to stop the problem').to_past().text());
-// console.log(nlp.sentence('@john').terms[0]);
+// console.log(nlp.sentence('you John').terms);
 
 
 // let lexicon = nlp.lexicon();
