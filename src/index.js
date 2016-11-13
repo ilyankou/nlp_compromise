@@ -105,22 +105,4 @@ if (typeof define === 'function' && define.amd) {
   define(nlp);
 }
 
-// console.log(nlp.sentence('he is currently doing everything he can to stop the problem').to_past().text());
-// console.log(nlp.sentence('joe does walk').terms);
-// let lexicon = nlp.lexicon({
-//   'paris': 'Person',
-//   'donky kong': 'City',
-// });
-// console.log(nlp.sentence('Paris is amazing', {
-//   lexicon: lexicon
-// }).terms);
-
-
-// let lexicon = nlp.lexicon();
-// lexicon['reid'] = 'Male';
-// let s = nlp.sentence('reid Hoffman is nice', {
-//   lexicon: {
-//     reid: 'Male'
-//   }
-// });
-// console.log(s.terms);
+// console.log(nlp.verb('played').conjugate());

@@ -1,5 +1,5 @@
 'use strict';
-const firstnames = require('../../../data/firstnames');
+const firstnames = require('../../../data/firstnames').all;
 let honourifics = require('../../../data/honourifics').reduce(function(h, s) {
   h[s] = true;
   return h;
@@ -21,6 +21,14 @@ const is_person = function(str) {
     let first = words[0];
     if (honourifics[first] || firstnames[first]) {
       return true;
+    }
+  }
+  //check middle initial - "phil k dick"
+  if (words.length > 2) {
+    if (words[0].length > 1 && words[2].length > 1) {
+      if (words[1].match(/^[a-z]\.?$/)) {
+        return true;
+      }
     }
   }
   return false;

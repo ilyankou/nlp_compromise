@@ -19,7 +19,7 @@ It's a [handy, and not overly-fancy](https://github.com/nlp-compromise/nlp_compr
 ## Off you go,
 > `npm install nlp_compromise`
 
-> `<script src="https://npmcdn.com/nlp_compromise@latest/builds/nlp_compromise.min.js"></script>`
+> `<script src="https://unpkg.com/nlp_compromise@latest/builds/nlp_compromise.min.js"></script>`
 
 ```javascript
 let nlp = require('nlp_compromise'); // or nlp = window.nlp_compromise
@@ -100,10 +100,26 @@ sen.terms[1].links[1].target.word; // terms[1] is verb 'fed'
 
 *Useful NLP is a problem only solved with many hands. [Contributing](https://github.com/nlp-compromise/nlp_compromise/blob/master/contributing.md) in any form is valued.*
 
-Join our [slack group](https://superscriptjs.slack.com/messages/nlp_compromise/) or our infrequent [announcement email-list](http://eepurl.com/bL9YRv).
+Join our [slack group](http://superscript-slackin.herokuapp.com) (login from [here](https://superscriptjs.slack.com/messages/nlp_compromise/)) or our infrequent [announcement email-list](http://eepurl.com/bL9YRv).
 
 Or just pick up an [open issue](https://github.com/nlp-compromise/nlp_compromise/issues)
 
 [We're moving fast](https://github.com/nlp-compromise/nlp_compromise/blob/master/changelog.md)
 
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
+
+#See also
+* [naturalNode](https://github.com/NaturalNode/natural) - decidedly fancier statistical nlp in javascript
+* [SuperScript](http://superscriptjs.com/) - clever conversation engine in javascript
+* [NodeBox Linguistics](https://www.nodebox.net/code/index.php/Linguistics) - conjugation, inflection, correction etc in javascript
+* [reText](https://github.com/wooorm/retext) - very impressive [text utilities](https://github.com/wooorm/retext/blob/master/doc/plugins.md) in javascript
+* [jsPos](https://code.google.com/archive/p/jspos/) - the time-tested Brill-tagger in js
+* [spaCy](https://spacy.io/) - speedy, multilingual tagger in Python/Cython
+
+(don't forget
+[NLTK](http://www.nltk.org/),
+[GATE](https://gate.ac.uk),
+the [Stanford Parser](http://nlp.stanford.edu/software/lex-parser.shtml),
+and
+the [Illinois toolkit](http://cogcomp.cs.illinois.edu/page/software/)
+)

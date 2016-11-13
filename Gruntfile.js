@@ -1,4 +1,15 @@
+
 module.exports = function (grunt) {
+  //paths to binaries, so no globals are needed
+  var browserify = './node_modules/.bin/browserify';
+  var tape = './node_modules/tape/bin/tape';
+  var tapSpec = './node_modules/tap-spec/bin/cmd.js';
+  var fileServer = './node_modules/.bin/http-server';
+  var uglify = './node_modules/uglify-js/bin/uglifyjs';
+
+  //paths
+  var uncompressed = './builds/nlp_compromise.js';
+  var compressed = './builds/nlp_compromise.min.js';
 
   grunt.initConfig({
 
@@ -6,51 +17,49 @@ module.exports = function (grunt) {
 
     watch: {
       files: ['./src/*.js', './src/**', './test/unit_tests/**'],
-      tasks: ['run:index']
-    // tasks: ['mochaTest']
+      tasks: ['run:main']
     },
 
     run: {
-      index: {
+      cleanup: { //remove builds
+        exec: 'rm -rf ./builds && mkdir builds'
+      },
+      init: { //add a header, before browserify
+        exec: 'echo "/* nlp_compromise v<%= pkg.version %> MIT*/" > ' + uncompressed
+      },
+      build: { //browserify -> babel -> derequire
+        exec: browserify + ' ./src/index.js --standalone nlp_compromise -t [ babelify --presets [ es2015 ] ] | derequire >> ' + uncompressed
+      },
+      uglify: { // jsFile -> jsFile.min
+        exec: uglify + ' ' + uncompressed + ' --mangle --compress --output ' + compressed + ' --preamble "/*nlp_compromise v<%= pkg.version %> MIT*/"' // --source-map ' + compressed + '.map'
+      },
+      test: {
+        exec: tape + ' ./test/unit_test/**/*_test.js | ' + tapSpec
+      },
+      browser_test: {
+        exec: 'browserify ./test/unit_test/*_test.js -o ./test/browser_test/compiled_tests.js && ' + fileServer + ' test/browser_test -o -c-1'
+      },
+      prerelease: { //test all versions serverside, client-side
+        exec: tape + ' ./test/prerelease/index.js | ' + tapSpec
+      },
+
+
+      demo: {
+        exec: fileServer + ' demo -o -c-1'
+      },
+      main: {
         exec: 'node ./src/index.js'
       },
-      build: {
-        exec: './node_modules/.bin/browserify ./src/index.js --standalone nlp_compromise -t [ babelify --presets [ es2015 ] ] -o ./builds/nlp_compromise.js '
-      },
       build_windows: {
-        exec: 'node_modules\\.bin\\browserify.cmd src/index.js --standalone nlp_compromise -t [ babelify --presets [ es2015 ] ] -o builds/nlp_compromise.js '
-      },
-      demo: {
-        exec: './node_modules/.bin/http-server demo'
       },
       demo_windows: {
-        exec: 'node_modules\\.bin\\http-server.cmd demo'
-      }
-    },
-
-    uglify: {
-      'do': {
-        src: ['./builds/nlp_compromise.js'],
-        dest: './builds/nlp_compromise.min.js'
-      },
-      'options': {
-        preserveComments: false,
-        mangle: true,
-        banner: ' /*nlp_compromise <%= pkg.version %>  MIT*/\n\n',
-        compress: {
-          drop_console: true,
-          dead_code: true,
-          properties: true,
-          unused: true,
-          warnings: true
-        }
       }
     },
 
     filesize: {
       base: {
         files: [{
-          src: ['./builds/nlp_compromise.min.js']
+          src: [compressed]
         }],
         options: {
           ouput: [{
@@ -60,59 +69,26 @@ module.exports = function (grunt) {
       }
     },
 
-    mochaTest: {
-      test: {
-        options: {
-          reporter: 'spec',
-          clearRequireCache: true,
-          colors: true,
-          growl: false
-        },
-        src: ['test/unit_tests/*/**.js']
-      }
-    },
-
-    mocha_istanbul: {
-      coverageSpecial: {
-        src: 'test/unit_tests/*/*.js',
-        options: {
-          reportFormats: ['html'],
-          quiet: true,
-          coverageFolder: './coverage'
-        }
-      }
-    },
-
     eslint: {
       target: ['./src/**'],
-      configFile: './.eslintrc'
-    },
-
-    bump: {
       options: {
-        files: ['package.json'],
-        updateConfigs: [],
-        commit: false,
-        push: false,
-        createTag: false
-      }
+        configFile: '.eslintrc',
+      },
     }
 
   });
 
   grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-run');
-  grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-filesize');
   grunt.loadNpmTasks('grunt-eslint');
-  grunt.loadNpmTasks('grunt-mocha-istanbul');
-  grunt.loadNpmTasks('grunt-bump');
 
-  grunt.registerTask('default', ['run:index']);
-  grunt.registerTask('coverage', ['mocha_istanbul']);
-  grunt.registerTask('test', ['mochaTest']);
+  grunt.registerTask('default', ['run:main']);
+  grunt.registerTask('test', ['run:test']);
+  grunt.registerTask('compress', ['run:uglify']);
   grunt.registerTask('lint', ['eslint']);
-  grunt.registerTask('demo', ['build', 'run:demo']);
-  grunt.registerTask('build', ['mochaTest', 'eslint', 'run:build', 'uglify', 'filesize']);
+  grunt.registerTask('demo', ['run:demo']);
+  grunt.registerTask('browser_test', ['run:browser_test']);
+  grunt.registerTask('prerelease', ['run:prerelease']);
+  grunt.registerTask('build', ['run:test', 'eslint', 'run:cleanup', 'run:init', 'run:build', 'run:uglify', 'filesize']);
 };

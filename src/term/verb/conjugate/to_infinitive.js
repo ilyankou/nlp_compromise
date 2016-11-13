@@ -93,8 +93,11 @@ let rules = {
       reg: /([^aeiou])ying$/i,
       to: '$1y'
     }, {
-      reg: /(i.)ing$/i,
+      reg: /([^ae]i.)ing$/i,
       to: '$1e'
+    }, {
+      reg: /(ea.)ing$/i,
+      to: '$1'
     }, {
       reg: /(u[rtcb]|[bdtpkg]l|n[cg]|a[gdkvtc]|[ua]s|[dr]g|yz|o[rlsp]|cre)ing$/i,
       to: '$1e'
@@ -143,7 +146,7 @@ let rules = {
       reg: /(us)ed$/i,
       to: '$1e'
     }, {
-      reg: /(..[^aeiou])ed$/i,
+      reg: /(..[^aeiouy])ed$/i,
       to: '$1e'
     }, {
       reg: /ied$/i,
@@ -153,6 +156,9 @@ let rules = {
       to: '$1o'
     }, {
       reg: /(.i)ed$/i,
+      to: '$1'
+    }, {
+      reg: /(a[^aeiou])ed$/i,
       to: '$1'
     }, {
       reg: /([rl])ew$/i,
@@ -179,6 +185,6 @@ const to_infinitive = function (str, from_tense) {
   return str;
 };
 
-// console.log(to_infinitive('watch', 'infinitive'));
+// console.log(to_infinitive('played', 'past'));
 
 module.exports = to_infinitive;

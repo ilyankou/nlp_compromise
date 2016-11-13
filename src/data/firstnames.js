@@ -12,43 +12,42 @@ const names = {};
 
 //names commonly used in either gender
 const ambiguous = [
-  'casey',
-  'jamie',
-  'lee',
-  'jaime',
-  'jessie',
-  'morgan',
-  'rene',
-  'robin',
-  'devon',
-  'kerry',
   'alexis',
-  'guadalupe',
-  'blair',
-  'kasey',
-  'jean',
-  'marion',
+  'andra',
   'aubrey',
-  'shelby',
-  'jan',
-  'shea',
-  'jade',
-  'kenyatta',
-  'kelsey',
-  'shay',
-  'lashawn',
-  'trinity',
-  'regan',
-  'jammie',
+  'blair',
+  'casey',
   'cassidy',
   'cheyenne',
-  'reagan',
-  'shiloh',
-  'marlo',
-  'andra',
   'devan',
+  'devon',
+  'guadalupe',
+  'jade',
+  'jaime',
+  'jamie',
+  'jammie',
+  'jan',
+  'jean',
+  'jessie',
+  'kasey',
+  'kelsey',
+  'kenyatta',
+  'kerry',
+  'lashawn',
+  'lee',
+  'marion',
+  'marlo',
+  'morgan',
+  'reagan',
+  'regan',
+  'rene',
+  'robin',
   'rosario',
-  'lee'
+  'shay',
+  'shea',
+  'shelby',
+  'shiloh',
+  'trinity',
 ];
 for(let i = 0; i < male.length; i++) {
   names[male[i]] = 'm';
@@ -64,4 +63,8 @@ for (let i = 0; i < ambiguous.length; i += 1) {
 // console.log(names['jill']);
 // console.log(names['sue'])
 // console.log(names['jan'])
-module.exports = names;
+module.exports = {
+  all: names,
+  male: male,
+  female: female
+};

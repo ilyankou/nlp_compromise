@@ -88,6 +88,7 @@ const classMapping = {
   'Conjunction': Term,
   'Possessive': Term,
   'Question': Term,
+  'Symbol': Term,
 
   'Email': Noun,
   'AtMention': Noun,
@@ -95,8 +96,8 @@ const classMapping = {
   'Url': Url,
 
   //not yet fully-supported as a POS
-  'Male': Person,
-  'Female': Person,
+  'MalePerson': Person,
+  'FemalePerson': Person,
 
   'Adverb': Adverb,
   'Value': Value,
